@@ -16,7 +16,7 @@
 ModuleToProcess = 'DellBios.psm1'
 
 # Version number of this module.
-ModuleVersion = '18.05.30'
+ModuleVersion = '19.3.26.0'
 
 # ID used to uniquely identify this module
 GUID = 'b82e454c-98da-4258-877f-bf61d2ed2999'

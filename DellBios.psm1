@@ -1,11 +1,14 @@
-﻿<#	
-	===========================================================================
-	 Version:   	18.05.30
-	 Created by:   	David Segura
-	 Filename:     	DellBios.psm1
-	-------------------------------------------------------------------------
-	 Module Name: DellBios
-	===========================================================================
-#>
+﻿#===================================================================================================
+#   Import Functions
+#   https://github.com/RamblingCookieMonster/PSStackExchange/blob/master/PSStackExchange/PSStackExchange.psm1
+#===================================================================================================
+$OSDPublicFunctions  = @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue )
+$OSDPrivateFunctions = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue )
 
-. $PSScriptRoot\Get-DellBiosUpdate.ps1
+foreach ($Import in @($OSDPublicFunctions + $OSDPrivateFunctions)) {
+    Try {. $Import.FullName}
+    Catch {Write-Error -Message "Failed to import function $($Import.FullName): $_"}
+}
+
+Export-ModuleMember -Function $OSDPublicFunctions.BaseName
+#===================================================================================================
