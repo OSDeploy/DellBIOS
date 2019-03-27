@@ -1,0 +1,48 @@
+Rules must be processd in this order
+Version 18.05.08
+
+Tablet
+select * from Win32_ComputerSystem where Model like "Latitude 10%"
+select * from Win32_ComputerSystem where Model like "Venue%"
+		
+Latitude5
+select * from Win32_ComputerSystem where Model like "Latitude 5%"
+select * from Win32_ComputerSystem where Model like "Latitude E5%"
+select * from Win32_ComputerSystem where Model like "Precision 3%"
+
+Latitude6
+select * from Win32_ComputerSystem where Model like "Latitude 6%"
+select * from Win32_ComputerSystem where Model like "Latitude E6%"
+
+Latitude7
+select * from Win32_ComputerSystem where Model like "Latitude 7%"
+select * from Win32_ComputerSystem where Model like "Latitude E7%"
+select * from Win32_ComputerSystem where Model like "XPS 9250"
+
+Latitude
+select * from Win32_ComputerSystem where Model like "Latitude%"
+
+PrecisionM	
+select * from Win32_ComputerSystem where Model like "Precision M%"
+
+PrecisionR
+select * from Win32_ComputerSystem where Model like "Precision R%"
+select * from Win32_ComputerSystem where Model like "%Rack%"
+
+PrecisionT
+select * from Win32_ComputerSystem where Model like "Precision T%"
+
+Precision
+select * from Win32_ComputerSystem where Model like "Precision%"
+
+OptiPlexAIO
+select * from Win32_ComputerSystem where Model like "%AIO%"
+
+OptiPlex
+select * from Win32_ComputerSystem where Model like "OptiPlex%"
+
+XPS
+select * from Win32_ComputerSystem where Model like "XPS%"
+
+Cloud
+select * from Win32_ComputerSystem where Model like "Wyse%"
