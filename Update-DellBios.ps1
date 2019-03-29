@@ -144,7 +144,7 @@ if ( ! ($((Get-CimInstance -ClassName Win32_ComputerSystem).Manufacturer).Trim()
 		Write-Host "Success!"
 	} else {
 		Write-Host "Filtering XML for items compatible with $Model ..." -ForegroundColor Green
-		$DellBiosUpdateList = $DellBiosUpdateList | Where-Object {$_.SupportedDevices -Contains $Model}
+		$DellBiosUpdateList = $DellBiosUpdateList | Where-Object {$_.BiosGroup -Contains $Model}
 		Write-Host "Success!"
 	}
 

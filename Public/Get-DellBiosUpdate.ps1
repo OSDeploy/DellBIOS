@@ -188,13 +188,13 @@ function Get-DellBiosUpdate
 		}
 	}
 	#======================================================================================
-	if ($OldRevisions -eq 'Show') {
-		$Orphans = $Orphans | Select-Object -Property Name, FullName, CreationTime | Out-GridView -PassThru -Title "Superseded BIOS Updates: Press OK to Remove or Cancel to Skip"
-		foreach ($OrphanSelected in $Orphans) {
-			Write-Host "Removing $OrphanSelected ..." -ForegroundColor Green
-			Remove-Item -Path $OrphanSelected.FullName
-		}
-	}
+    if ($OldRevisions -eq 'Show') {
+        $Orphans = $Orphans | Select-Object -Property @{Name="BiosGroup";Expression={Split-Path ($_.Directory) -leaf};}, Name, FullName, CreationTime | Out-GridView -PassThru -Title "Superseded BIOS Updates: Press OK to Remove or Cancel to Skip"
+        foreach ($OrphanSelected in $Orphans) {
+            Write-Host "Removing $OrphanSelected ..." -ForegroundColor Green
+            Remove-Item -Path $OrphanSelected.FullName
+        }
+    }
 	#======================================================================================
 	Write-Host ""
 	Write-Host "Generating Update List Array ..." -ForegroundColor Green
@@ -222,12 +222,16 @@ function Get-DellBiosUpdate
 	#| Sort-Object ReleaseDate -Descending | Out-GridView -OutputMode Multiple -Title "Select Dell BIOS Downloads"
 	Write-Host "Success!"
 	#======================================================================================
-	#Remove Old Updates
-	$DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "9J7J6"}
-	$DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "CN8JD"}
-	$DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "W7RCH"}
-	$DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "9MDXF"}	#T3600 A15
-	$DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "9PM1X"}	#T5600 A15
+    #Hide Old Revisions
+    $DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "9J7J6"}
+    $DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "CN8JD"}
+    $DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "W7RCH"}
+    $DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "Y1JN3"} #Precision 5820
+    $DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "GGYXD"} #Precision 5820
+    $DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "96YGD"} #Precision 5820
+    $DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "9MDXF"} #T3600 A15
+    $DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "9PM1X"} #T5600 A15
+    $DellUpdateList = $DellUpdateList | Where-Object {$_.PackageID -ne "PG21K"} #Latitude 5280 5480 5580 Precision 3520
 
 	#Remove T0N11 32
 	$DellUpdateList = $DellUpdateList | Where-Object {$_.DownloadURL -NotLike "*WN32*"}
@@ -321,6 +325,7 @@ function Get-DellBiosUpdate
 		if ($Download.SupportedSystemID -eq '06DA') {$Download.BiosGroup = "Precision 7510 7710"}
 		if ($Download.SupportedSystemID -eq '06DC') {$Download.BiosGroup = "Latitude E7270 E7470"}
 		if ($Download.SupportedSystemID -eq '06E0') {$Download.BiosGroup = "Latitude E5270 E5470 E5570 Precision 3510"}
+		if ($Download.SupportedSystemID -eq '0818') {$Download.BiosGroup = "Latitude E5491 E5591 Precision 3530"}
 		if ($Download.SupportedSystemID -eq '06E6') {$Download.BiosGroup = "Latitude 5175 5179 2-in-1"}
 		if ($Download.SupportedSystemID -eq '06E7') {$Download.BiosGroup = "Venue 8 Pro 5855 10 Pro 5056"}
 		if ($Download.SupportedSystemID -eq '06F1') {$Download.BiosGroup = "Latitude 3460 3560"}
@@ -335,6 +340,7 @@ function Get-DellBiosUpdate
 		if ($Download.SupportedSystemID -eq '07F3') {$Download.BiosGroup = "Latitude 7280 7380 7480"}
 		if ($Download.SupportedSystemID -eq '0816') {$Download.BiosGroup = "Latitude 5290 5490 5590"}
 		if ($Download.SupportedSystemID -eq '081B') {$Download.BiosGroup = "Latitude 7290 7390 7490"}
+		if ($Download.SupportedSystemID -eq '081F') {$Download.BiosGroup = "Latitude 3190 2-in-1"}
 		if ($Download.SupportedSystemID -eq '0839') {$Download.BiosGroup = "Latitude 3490 3590"}
 		
 		if ($Download.BiosGroup -eq '') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
@@ -384,9 +390,15 @@ function Get-DellBiosUpdate
 		if ($Download.SupportedSystemID -eq '07E6') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
 		if ($Download.SupportedSystemID -eq '080D') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
 		if ($Download.SupportedSystemID -eq '0823') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
+		if ($Download.SupportedSystemID -eq '0871') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
 		if ($Download.SupportedSystemID -eq '0878') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
 		if ($Download.SupportedSystemID -eq '087C') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
 		if ($Download.SupportedSystemID -eq '087D') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
+        if ($Download.SupportedSystemID -eq '08AC') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
+        if ($Download.SupportedSystemID -eq '0860') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
+        if ($Download.SupportedSystemID -eq '0863') {$Download.BiosGroup = ($Download.SupportedBrand.Trim(), $Download.SupportedModel.Trim() -join " ")}
+        
+        
 		
 		
 	}
